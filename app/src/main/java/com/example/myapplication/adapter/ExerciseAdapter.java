@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,6 +54,24 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
                 subItemAdapter.add(subExercise);
             }
         });
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull  RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull  RecyclerView.ViewHolder viewHolder, int direction) {
+                int sub_position = viewHolder.getAdapterPosition();
+                if(direction == ItemTouchHelper.LEFT){
+                    exercises.get(position).getSub_exercises().remove(sub_position);
+                    notifyDataSetChanged();
+                }
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(holder.rvSubItem);
     }
 
     @Override
@@ -69,8 +88,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
             tvExName = itemView.findViewById(R.id.tvExName);
             rvSubItem = itemView.findViewById(R.id.sub_exercise_rv);
             add_set_btn = itemView.findViewById(R.id.add_set_btn);
+
         }
     }
+
+
 
 
 }
