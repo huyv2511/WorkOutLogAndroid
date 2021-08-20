@@ -50,7 +50,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         holder.add_set_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sub_exercise subExercise = new sub_exercise(-1,-1,-1);
+                sub_exercise subExercise = new sub_exercise(-1,-1,-1,holder.tvExName.getText().toString(),exercises.get(position).getExercise_name());
                 subItemAdapter.add(subExercise);
             }
         });
