@@ -4,6 +4,15 @@ import java.util.ArrayList;
 
 public class exercise {
     private String exercise_name;
+
+    public exercise(String exercise_name, String day_name, ArrayList<sub_exercise> sub_exercises) {
+        this.exercise_name = exercise_name;
+        this.day_name = day_name;
+        this.sub_exercises = sub_exercises;
+    }
+
+    private String day_name;
+
     private ArrayList<sub_exercise> sub_exercises;
 
     public exercise(String exercise_name, ArrayList<sub_exercise> sub_exercises) {
@@ -23,5 +32,13 @@ public class exercise {
     }
     public void setExercise_name(String exercise_name) {
         this.exercise_name = exercise_name;
+    }
+
+    public String getDay_name() {
+        return day_name;
+    }
+
+    public void setDay_name(String day_name) {
+        this.day_name = day_name;
     }
 }

@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myapplication.adapter.dayAdapter;
-import com.example.myapplication.dataBaseHelper.dataBaseHelper;
+import com.example.myapplication.dataBaseHelper.DataBaseHelper;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements dayAdapter.OnNote
         day_list = new ArrayList<String>();
 
         //loading up data
-        dataBaseHelper db = new dataBaseHelper(getApplicationContext());
+        DataBaseHelper db = new DataBaseHelper(getApplicationContext());
         day_list = db.loadDay();
 
         day_adapter = new dayAdapter(day_list, getApplicationContext(),this);
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements dayAdapter.OnNote
                 String day_str = day_et.getText().toString();
 
                 if (!day_str.isEmpty()) {
-                    dataBaseHelper db = new dataBaseHelper(getApplicationContext());
+                    DataBaseHelper db = new DataBaseHelper(getApplicationContext());
                     boolean add_bool = db.addOne(day_str, day_adapter);
                     if (add_bool) {
                         Toast.makeText(MainActivity.this, "addOne successful!", Toast.LENGTH_SHORT).show();

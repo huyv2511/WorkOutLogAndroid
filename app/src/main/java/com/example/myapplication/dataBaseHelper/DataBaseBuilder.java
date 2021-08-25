@@ -11,22 +11,28 @@ import androidx.annotation.Nullable;
 import com.example.myapplication.Model.sub_exercise;
 import com.example.myapplication.adapter.subItemAdapter;
 
-public class dataBaseBuilder extends SQLiteOpenHelper {
+public class DataBaseBuilder extends SQLiteOpenHelper {
     public static final String DAY_NAME = "DAY_NAME";
     public static final String EXERCISES = "EXERCISES";
     public static final String ROUND = "round";
     public static final String REP = "REP";
     public static final String LBS = "LBS";
     public static final String SUB_NAME = "SUB_NAME";
+    public static final String DAY_EXERCISES = " DAY_EXERCISES ";
 
-    public dataBaseBuilder(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, "exercise_log.db", null, -1);
+    public DataBaseBuilder(@Nullable Context context) {
+        super(context, "workout_log.db", null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableStatement = "CREATE TABLE " + EXERCISES + " ( " + DAY_NAME + " TEXT, " + SUB_NAME + " TEXT, " +  ROUND +" INTEGER, " + REP + " INTEGER,"+ LBS + " INTEGER )";
+        //day_exercises table is going to contain the name of the day and all the workout name of that day
+        //Exercises Table is going to contain all the details inside that day like rep set and lbs
+
+        String createTableStatement = "CREATE TABLE " + EXERCISES + " (" + DAY_NAME + " TEXT, " + SUB_NAME + " TEXT, " +  ROUND +" INTEGER, " + REP + " INTEGER,"+ LBS + " INTEGER)";
+        String createTableStatement1 = "CREATE TABLE " + DAY_EXERCISES + " (" + DAY_NAME + " TEXT, " + SUB_NAME + " TEXT)";
         db.execSQL(createTableStatement);
+        db.execSQL(createTableStatement1);
     }
 
     @Override
@@ -52,6 +58,20 @@ public class dataBaseBuilder extends SQLiteOpenHelper {
             adapter.notifyDataSetChanged();
         }
         return true;
+    }
+
+    public boolean addOneNewExercise(String day_name, String sub_name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(DAY_NAME,day_name);
+        cv.put(SUB_NAME,sub_name);
+        long insert = db.insert(DAY_EXERCISES,null, cv);
+        if(insert == -1){
+            return false;
+        } else{
+            return true;
+        }
+
     }
 
     public boolean deleteOne(sub_exercise e){

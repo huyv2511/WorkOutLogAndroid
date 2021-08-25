@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -14,13 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.Model.exercise;
 import com.example.myapplication.Model.sub_exercise;
 import com.example.myapplication.R;
+import com.example.myapplication.dataBaseHelper.DataBaseHelper;
 
 import java.util.ArrayList;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder> {
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private ArrayList<exercise> exercises;
-
     public ExerciseAdapter(ArrayList<exercise> exercises) {
         this.exercises = exercises;
     }
@@ -50,8 +51,19 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         holder.add_set_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sub_exercise subExercise = new sub_exercise(-1,-1,-1,holder.tvExName.getText().toString(),exercises.get(position).getExercise_name());
-                subItemAdapter.add(subExercise);
+                sub_exercise subExercise = new sub_exercise(-1,0,0,holder.tvExName.getText().toString(),exercises.get(position).getDay_name());
+////                dataBaseBuilder dataBaseBuilder = new dataBaseBuilder(v.getContext());
+//                boolean b = dataBaseBuilder.addOne(subExercise, subItemAdapter);
+//                if(b==true){
+//                    subItemAdapter.add(subExercise);
+//                }
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(v.getContext());
+                if(dataBaseHelper.addOneToExerciseTable(subExercise)){
+                    Toast.makeText(v.getContext(), "Successfully added to exercise table", Toast.LENGTH_SHORT).show();
+                    subItemAdapter.add(subExercise);
+                } else{
+                    Toast.makeText(v.getContext(), "failed", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
