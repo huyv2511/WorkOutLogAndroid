@@ -39,7 +39,7 @@ public class EditExerciseActivity extends AppCompatActivity implements AddExerci
 
         exerciseArrayList = new ArrayList<exercise>();
 
-        //now we are loading the data to our arraylist
+        //now we are loading the data to our ArrayList
         DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
         exerciseArrayList = dataBaseHelper.loadExerciseList(day_name_tv.getText().toString().toLowerCase());
 

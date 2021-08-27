@@ -33,7 +33,6 @@ public class subItemAdapter extends RecyclerView.Adapter<subItemAdapter.SubItemV
         sub_exercise subItem = subItemList.get(position);
         holder.et_reps.setText(String.valueOf(subItem.getReps()));
         holder.et_lbs.setText(String.valueOf(subItem.getLbs()));
-        holder.et_set.setText(String.valueOf(subItem.getSet()));
     }
 
     @Override
@@ -42,10 +41,9 @@ public class subItemAdapter extends RecyclerView.Adapter<subItemAdapter.SubItemV
     }
 
     public class SubItemViewHolder extends RecyclerView.ViewHolder {
-        EditText et_set,et_lbs,et_reps;
+        EditText et_lbs,et_reps;
         public SubItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            et_set = itemView.findViewById(R.id.et_set);
             et_lbs = itemView.findViewById(R.id.et_lbs);
             et_reps = itemView.findViewById(R.id.et_reps);
         }

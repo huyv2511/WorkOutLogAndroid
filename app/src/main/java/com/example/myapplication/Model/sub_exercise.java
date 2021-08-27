@@ -1,33 +1,25 @@
 package com.example.myapplication.Model;
 
 public class sub_exercise {
-    private int set;
     private int lbs;
     private int reps;
     private String sub_name;
     private String day_name;
 
-    public sub_exercise(int set, int lbs, int reps, String sub_name, String day_name) {
-        this.set = set;
+    public sub_exercise(int lbs, int reps, String sub_name, String day_name) {
+
         this.lbs = lbs;
         this.reps = reps;
         this.sub_name = sub_name;
         this.day_name = day_name;
     }
 
-    public sub_exercise(int set, int lbs, int reps) {
-        this.set = set;
+    public sub_exercise(int lbs, int reps) {
         this.lbs = lbs;
         this.reps = reps;
     }
 
-    public int getSet() {
-        return set;
-    }
 
-    public void setSet(int set) {
-        this.set = set;
-    }
 
     public int getLbs() {
         return lbs;

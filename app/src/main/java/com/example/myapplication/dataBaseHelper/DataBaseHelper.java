@@ -41,7 +41,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTableStatement = "CREATE TABLE " + DAY_TABLE + " (" + POSITION + " INTEGER, " + DAY_NAME + " TEXT) ";
-        String createTableStatement1 = "CREATE TABLE " + EXERCISES_TABLE + " (" + DAY_NAME + " TEXT, " + EXERCISES_NAME + " TEXT, " +  ROUND +" INTEGER, " + REP + " INTEGER,"+ LBS + " INTEGER)";
+        String createTableStatement1 = "CREATE TABLE " + EXERCISES_TABLE + " (" + DAY_NAME + " TEXT, " + EXERCISES_NAME + " TEXT, " + REP + " INTEGER,"+ LBS + " INTEGER)";
         String createTableStatement2 = "CREATE TABLE " + DAY_EXERCISES_TABLE + " (" + DAY_NAME + " TEXT, " + EXERCISES_NAME + " TEXT)";
         db.execSQL(createTableStatement);
         db.execSQL(createTableStatement1);
@@ -85,7 +85,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         cv.put(DAY_NAME,e.getDay_name());
         cv.put(EXERCISES_NAME,e.getSub_name());
-        cv.put(ROUND,e.getSet());
         cv.put(REP,e.getReps());
         cv.put(LBS,e.getLbs());
 
@@ -120,6 +119,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         String queryString = "SELECT count(*) FROM " + DAY_EXERCISES_TABLE;
         Cursor cursor = db.rawQuery(queryString,null);
+
         if(cursor.moveToFirst()){
             int counter = cursor.getInt(0);
 
@@ -128,33 +128,36 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             }
             else{
                 Log.d(DATA_BASE_HELPER,"NOT EMPTY!");
-                String queryString1 = "SELECT * FROM " + DAY_EXERCISES_TABLE+ " WHERE " + DAY_NAME +  " = \"" + day_name_str + "\"";
+                String queryString1 = "SELECT " + EXERCISES_NAME +
+                        " FROM " + DAY_EXERCISES_TABLE+ " " +
+                        "WHERE " + DAY_NAME +  " = \"" + day_name_str + "\"";
+
                 Cursor cursor1 = db.rawQuery(queryString1,null);
                 if(cursor1.moveToFirst()){
+                    String exercise_name = cursor1.getString(0);
                     do{
                         //work on adding exercise and designing your database here
                         // first we have to create sub_exercise object
                         ArrayList<sub_exercise> subExerciseArrayList = new ArrayList<>();
-//                        String queryString2 = "SELECT " + DAY_NAME + ", " + EXERCISES_NAME + ", " + ROUND + ", " + REP + ", " + LBS
-//                                + " FROM " + EXERCISES_TABLE
-//                                + " WHERE " + DAY_NAME  + " = " +day_name_str;
-                        String queryString2 = "SELECT " + ROUND + ", " + LBS + ", " + REP + ", " + EXERCISES_NAME + ", " + DAY_NAME
+                        String queryString2 = "SELECT "+ LBS + ", " + REP + ", " + EXERCISES_NAME + ", " + DAY_NAME
                                 + " FROM " + EXERCISES_TABLE
-                                + " WHERE " + DAY_NAME  + " = " + "\"" + day_name_str + "\"";
+                                + " WHERE " + DAY_NAME  + " = " + "\"" + day_name_str + "\""  +
+                                "AND " +EXERCISES_NAME  +" = " + "\"" + exercise_name + "\"" ;
                         Cursor cursor2 = db.rawQuery(queryString2,null);
                         if(cursor2.moveToFirst()){
                             do{
                                 sub_exercise e = new sub_exercise(cursor2.getInt(0),
                                                 cursor2.getInt(1),
-                                                cursor2.getInt(2),
-                                                cursor2.getString(3),
-                                                cursor2.getString(4));
+                                                cursor2.getString(2),
+                                                cursor2.getString(3));
                                 subExerciseArrayList.add(e);
-                            } while(cursor1.moveToNext());
+                            } while(cursor2.moveToNext());
+
+                            exercise newE = new exercise(exercise_name,subExerciseArrayList);
+                            returnList.add(newE);
                         }
-                        exercise newE = new exercise(day_name_str,subExerciseArrayList);
-                        returnList.add(newE);
-                    } while(cursor.moveToNext());
+
+                    } while(cursor1.moveToNext());
                 }
             }
         }
@@ -169,7 +172,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String queryString = "SELECT * FROM "+ DAY_TABLE ;
         Cursor cursor = db.rawQuery(queryString, null);
         if(cursor.moveToFirst()){
-            do{
+            do{     
                 returnList.add(cursor.getString(1));
 
             } while(cursor.moveToNext());

@@ -51,12 +51,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         holder.add_set_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sub_exercise subExercise = new sub_exercise(-1,0,0,holder.tvExName.getText().toString(),exercises.get(position).getDay_name());
-////                dataBaseBuilder dataBaseBuilder = new dataBaseBuilder(v.getContext());
-//                boolean b = dataBaseBuilder.addOne(subExercise, subItemAdapter);
-//                if(b==true){
-//                    subItemAdapter.add(subExercise);
-//                }
+                sub_exercise subExercise = new sub_exercise(0,0,holder.tvExName.getText().toString(),exercises.get(position).getDay_name());
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(v.getContext());
                 if(dataBaseHelper.addOneToExerciseTable(subExercise)){
                     Toast.makeText(v.getContext(), "Successfully added to exercise table", Toast.LENGTH_SHORT).show();
