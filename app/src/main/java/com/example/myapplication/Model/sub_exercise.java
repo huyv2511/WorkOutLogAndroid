@@ -1,13 +1,21 @@
 package com.example.myapplication.Model;
 
+import java.util.UUID;
+
 public class sub_exercise {
     private int lbs;
     private int reps;
+    private String id;
     private String sub_name;
+
+    public String getId() {
+        return id;
+    }
+
     private String day_name;
 
-    public sub_exercise(int lbs, int reps, String sub_name, String day_name) {
-
+    public sub_exercise(int lbs, int reps, String sub_name, String day_name, String id) {
+        this.id = id;
         this.lbs = lbs;
         this.reps = reps;
         this.sub_name = sub_name;

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -16,6 +17,9 @@ import com.example.myapplication.adapter.dayAdapter;
 import java.util.ArrayList;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
+
+    public static final String ID = "ID";
+    private static final String TAG = "DataBaseHelper";
 
     //For the first table day_table containing all the templates
     public static final String DAY_TABLE = "DAY_TABLE";
@@ -41,7 +45,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTableStatement = "CREATE TABLE " + DAY_TABLE + " (" + POSITION + " INTEGER, " + DAY_NAME + " TEXT) ";
-        String createTableStatement1 = "CREATE TABLE " + EXERCISES_TABLE + " (" + DAY_NAME + " TEXT, " + EXERCISES_NAME + " TEXT, " + REP + " INTEGER,"+ LBS + " INTEGER)";
+        String createTableStatement1 = "CREATE TABLE " + EXERCISES_TABLE + " (" + DAY_NAME + " TEXT, " + EXERCISES_NAME + " TEXT, " +
+                            REP + " INTEGER,"+ LBS + " INTEGER, " + ID +" TEXT)";
         String createTableStatement2 = "CREATE TABLE " + DAY_EXERCISES_TABLE + " (" + DAY_NAME + " TEXT, " + EXERCISES_NAME + " TEXT)";
         db.execSQL(createTableStatement);
         db.execSQL(createTableStatement1);
@@ -80,13 +85,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean addOneToExerciseTable(sub_exercise e) {
-        SQLiteDatabase  db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(DAY_NAME,e.getDay_name());
         cv.put(EXERCISES_NAME,e.getSub_name());
         cv.put(REP,e.getReps());
         cv.put(LBS,e.getLbs());
+        cv.put(ID,e.getId());
 
         long l = db.insert(EXERCISES_TABLE,null,cv);
         if(l==-1){
@@ -134,12 +140,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
                 Cursor cursor1 = db.rawQuery(queryString1,null);
                 if(cursor1.moveToFirst()){
-                    String exercise_name = cursor1.getString(0);
                     do{
                         //work on adding exercise and designing your database here
                         // first we have to create sub_exercise object
+                        String exercise_name = cursor1.getString(0);
                         ArrayList<sub_exercise> subExerciseArrayList = new ArrayList<>();
-                        String queryString2 = "SELECT "+ LBS + ", " + REP + ", " + EXERCISES_NAME + ", " + DAY_NAME
+                        String queryString2 = "SELECT "+ LBS + ", " + REP + ", " + EXERCISES_NAME + ", " + DAY_NAME +  "," +ID
                                 + " FROM " + EXERCISES_TABLE
                                 + " WHERE " + DAY_NAME  + " = " + "\"" + day_name_str + "\""  +
                                 "AND " +EXERCISES_NAME  +" = " + "\"" + exercise_name + "\"" ;
@@ -149,11 +155,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                                 sub_exercise e = new sub_exercise(cursor2.getInt(0),
                                                 cursor2.getInt(1),
                                                 cursor2.getString(2),
-                                                cursor2.getString(3));
+                                                cursor2.getString(3),
+                                                cursor2.getString(4));
+
                                 subExerciseArrayList.add(e);
                             } while(cursor2.moveToNext());
 
-                            exercise newE = new exercise(exercise_name,subExerciseArrayList);
+                            exercise newE = new exercise(exercise_name,day_name_str,subExerciseArrayList);
                             returnList.add(newE);
                         }
 
@@ -163,6 +171,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
         return  returnList;
+    }
+
+    public void deleteOne(sub_exercise e){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(EXERCISES_TABLE, ID + " = " +"\""+ e.getId() + "\"",null);
+
+    }
+
+    public int updateDatabase(sub_exercise e){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(DAY_NAME,e.getDay_name());
+        cv.put(EXERCISES_NAME,e.getSub_name());
+        cv.put(REP,e.getReps());
+        cv.put(LBS,e.getLbs());
+        cv.put(ID,e.getId());
+
+        String whereClause = ID  + " = " + "\"" + e.getId() + "\"" ;
+        Log.d(TAG,e.getDay_name());
+        Log.d(TAG,e.getSub_name());
+        Log.d(TAG,e.getId());
+
+        return db.update(EXERCISES_TABLE,cv,whereClause,new String[]{});
+
     }
 
     public ArrayList<String> loadDay(){
@@ -179,6 +212,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
         return returnList;
+    }
+
+    public void deleteExercise(exercise e){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String whereClause = DAY_NAME + " = " + "\"" + e.getDay_name() + "\"" + " AND " + EXERCISES_NAME + " = " + "\"" + e.getExercise_name() + "\"";
+        db.delete(DAY_EXERCISES_TABLE,whereClause,null);
+        db.delete(EXERCISES_TABLE,whereClause,null);
+
     }
 }
 //    java.lang.RuntimeException: Unable to start activity ComponentInfo{com.example.myapplication/com.example.myapplication.EditExerciseActivity}:

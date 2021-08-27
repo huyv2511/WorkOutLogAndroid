@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +24,7 @@ public class EditExerciseActivity extends AppCompatActivity implements AddExerci
     EditText note_exercise_et;
     TextView day_name_tv;
     RecyclerView exercise_rv;
-    Button addExercise_btn;
+    Button addExercise_btn,saveButton;
     ExerciseAdapter exerciseAdapter;
     ArrayList<exercise> exerciseArrayList;
     @Override
@@ -34,6 +35,7 @@ public class EditExerciseActivity extends AppCompatActivity implements AddExerci
         exercise_rv = findViewById(R.id.rvExercise);
         note_exercise_et = findViewById(R.id.note_edit_exercise_et);
         addExercise_btn = findViewById(R.id.addExercise_btn);
+        saveButton = findViewById(R.id.save_btn);
         day_name_tv = findViewById(R.id.day_name_Tv);
         day_name_tv.setText(getIntent().getStringExtra("day_name").toUpperCase());
 
@@ -43,7 +45,7 @@ public class EditExerciseActivity extends AppCompatActivity implements AddExerci
         DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
         exerciseArrayList = dataBaseHelper.loadExerciseList(day_name_tv.getText().toString().toLowerCase());
 
-        exerciseAdapter = new ExerciseAdapter(exerciseArrayList);
+        exerciseAdapter = new ExerciseAdapter(this,exerciseArrayList);
         exercise_rv.setAdapter(exerciseAdapter);
         exercise_rv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -51,6 +53,14 @@ public class EditExerciseActivity extends AppCompatActivity implements AddExerci
             @Override
             public void onClick(View v) {
                 openDialog();
+            }
+        });
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -62,6 +72,10 @@ public class EditExerciseActivity extends AppCompatActivity implements AddExerci
     private void openDialog() {
         AddExerciseDialog dialog = new AddExerciseDialog();
         dialog.show(getSupportFragmentManager(),"Add New Exercise");
+    }
+
+    private void updateDatabase(){
+        
     }
 
 
