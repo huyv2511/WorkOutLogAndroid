@@ -4,16 +4,19 @@ import java.util.ArrayList;
 
 public class exercise {
     private String exercise_name;
-    private String day_name;
+    private String template_name;
+    private String template_id;
     private ArrayList<sub_exercise> sub_exercises;
 
 
-
-    public exercise(String exercise_name, String day_name, ArrayList<sub_exercise> sub_exercises) {
+    public exercise(String exercise_name, String template_name, String template_id, ArrayList<sub_exercise> sub_exercises) {
         this.exercise_name = exercise_name;
-        this.day_name = day_name;
+        this.template_name = template_name;
+        this.template_id = template_id;
         this.sub_exercises = sub_exercises;
     }
+
+
 
     public String getExercise_name() {
         return exercise_name;
@@ -29,11 +32,16 @@ public class exercise {
         this.exercise_name = exercise_name;
     }
 
-    public String getDay_name() {
-        return day_name;
+    public String getTemplate_name() {
+        return template_name;
     }
 
-    public void setDay_name(String day_name) {
-        this.day_name = day_name;
+    public void setTemplate_name(String template_name) {
+        this.template_name = template_name;
     }
+
+    public String getTemplate_id() {
+        return template_id;
+    }
+
 }

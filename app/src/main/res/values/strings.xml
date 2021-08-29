@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WorkOutLogUsingSQLite</string>
+    <string name="app_name">WorkOut Log</string>
     <string-array name="numbers">
         <item>1</item>
         <item>2</item>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,11 +61,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
             public void onClick(View v) {
                 String id = UUID.randomUUID().toString();
                 sub_exercise subExercise = new sub_exercise(0,0,holder.tvExName.getText().toString().toLowerCase(),
-                        exercises.get(position).getDay_name(), id);
+                        exercises.get(position).getTemplate_name(), id,exercises.get(position).getTemplate_id());
                 Log.d(EXERCISE_ADAPTER_TAG,id);
-                Log.d(EXERCISE_ADAPTER_TAG,exercises.get(0).getDay_name());
+                Log.d(EXERCISE_ADAPTER_TAG,exercises.get(0).getTemplate_name());
 //                Log.d(EXERCISE_ADAPTER_TAG,exercises.get(position).getDay_name());
-                if(dataBaseHelper.addOneToExerciseTable(subExercise)){
+                if(dataBaseHelper.addOneSet(subExercise,exercises.get(position).getTemplate_id())){
                     Toast.makeText(v.getContext(), "Successfully added to exercise table", Toast.LENGTH_SHORT).show();
                     subItemAdapter.add(subExercise);
                 } else{
@@ -111,7 +112,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvExName;
         RecyclerView rvSubItem;
-        Button add_set_btn,deleteBtn;
+        Button add_set_btn;
+        ImageButton deleteBtn;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             deleteBtn = itemView.findViewById(R.id.deleteExerciseBtn);

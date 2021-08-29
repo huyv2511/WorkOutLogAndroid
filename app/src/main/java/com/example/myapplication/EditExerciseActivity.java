@@ -9,11 +9,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.Model.exercise;
 import com.example.myapplication.Model.sub_exercise;
+import com.example.myapplication.Model.template;
 import com.example.myapplication.adapter.ExerciseAdapter;
 import com.example.myapplication.dataBaseHelper.DataBaseHelper;
 import com.example.myapplication.dialog.AddExerciseDialog;
@@ -22,10 +24,12 @@ import java.util.ArrayList;
 
 public class EditExerciseActivity extends AppCompatActivity implements AddExerciseDialog.AddExerciseDialogListener {
     EditText note_exercise_et;
-    TextView day_name_tv;
+    TextView template_name_Tv;
     RecyclerView exercise_rv;
-    Button addExercise_btn,saveButton;
+    Button addExercise_btn;
+    ImageButton homeButton;
     ExerciseAdapter exerciseAdapter;
+    private template template;
     ArrayList<exercise> exerciseArrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +37,22 @@ public class EditExerciseActivity extends AppCompatActivity implements AddExerci
         setContentView(R.layout.activity_exercise);
 
         exercise_rv = findViewById(R.id.rvExercise);
-        note_exercise_et = findViewById(R.id.note_edit_exercise_et);
         addExercise_btn = findViewById(R.id.addExercise_btn);
-        saveButton = findViewById(R.id.save_btn);
-        day_name_tv = findViewById(R.id.day_name_Tv);
-        day_name_tv.setText(getIntent().getStringExtra("day_name").toUpperCase());
+        homeButton = findViewById(R.id.save_btn);
+        template_name_Tv = findViewById(R.id.day_name_Tv);
+
+        //we have to create a template object
+        String template_id = getIntent().getStringExtra("template_id");
+        String template_name = getIntent().getStringExtra("template_name");
+        template = new template(template_id,template_name);
+
+        template_name_Tv.setText(template_name.toUpperCase());
 
         exerciseArrayList = new ArrayList<exercise>();
 
         //now we are loading the data to our ArrayList
         DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
-        exerciseArrayList = dataBaseHelper.loadExerciseList(day_name_tv.getText().toString().toLowerCase());
+        exerciseArrayList = dataBaseHelper.loadExerciseList(template);
 
         exerciseAdapter = new ExerciseAdapter(this,exerciseArrayList);
         exercise_rv.setAdapter(exerciseAdapter);
@@ -56,7 +65,7 @@ public class EditExerciseActivity extends AppCompatActivity implements AddExerci
             }
         });
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
@@ -74,17 +83,20 @@ public class EditExerciseActivity extends AppCompatActivity implements AddExerci
         dialog.show(getSupportFragmentManager(),"Add New Exercise");
     }
 
-    private void updateDatabase(){
-        
-    }
-
 
     @Override
     public void newData(String new_exercise_str) {
         //we need to add the day_name. The day_name is the problem
-        exerciseArrayList.add(new exercise(new_exercise_str,day_name_tv.getText().toString().toLowerCase(), new ArrayList<sub_exercise>()));
+        String template_name = template.getTemplateName();
+        String template_id = template.getTemplateId();
+        exercise e = new exercise(new_exercise_str,template_name,template_id,new ArrayList<sub_exercise>());
+
+        exerciseArrayList.add(e);
+
         DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
-        if(dataBaseHelper.addOne_dayEx_table(new_exercise_str,day_name_tv.getText().toString().toLowerCase())){
+
+
+        if(dataBaseHelper.addOneExercise(new_exercise_str,template)){
             Toast.makeText(this, "Successfully add new exercise", Toast.LENGTH_SHORT).show();
             exerciseAdapter.notifyDataSetChanged();
         } else{

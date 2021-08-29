@@ -19,13 +19,14 @@
             android:textSize="20dp"
             android:layout_weight="1"
             android:textStyle="bold" />
-        <Button
+        <ImageButton
             android:id="@+id/deleteExerciseBtn"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:src="@drawable/delete_icon"
             android:text="Delete" />
 
     </LinearLayout>
@@ -69,6 +70,7 @@
         <Button
             android:id="@+id/add_set_btn"
             android:layout_width="wrap_content"
+            android:backgroundTint="#4B6587"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="+Add set" />

@@ -19,32 +19,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/note_edit_exercise_et"
-        android:layout_width="match_parent"
-        android:layout_height="74dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:hint="Take your note here..."
-        android:textColor="@color/black"
-        android:textSize="14dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/day_name_Tv" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvExercise"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="490dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
+        android:background="@drawable/rectangle_background"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/note_edit_exercise_et">
+        app:layout_constraintTop_toBottomOf="@+id/save_btn">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -53,20 +40,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="135dp"
-        android:layout_marginTop="19dp"
         android:layout_marginEnd="135dp"
+        android:backgroundTint="#4B6587"
         android:text="Add Exercise"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvExercise" />
 
-    <Button
+    <ImageButton
         android:id="@+id/save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="200dp"
         android:layout_marginTop="36dp"
-        android:text="SAVE"
+        android:text="Home"
+        android:textColor="@color/white"
+        android:src="@drawable/ic_baseline_home_24"
+        android:backgroundTint="#C8C6C6"
         app:layout_constraintStart_toEndOf="@+id/day_name_Tv"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

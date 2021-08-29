@@ -7,6 +7,7 @@ public class sub_exercise {
     private int reps;
     private String id;
     private String sub_name;
+    private String day_id;
 
     public String getId() {
         return id;
@@ -14,10 +15,11 @@ public class sub_exercise {
 
     private String day_name;
 
-    public sub_exercise(int lbs, int reps, String sub_name, String day_name, String id) {
+    public sub_exercise(int lbs, int reps, String sub_name, String day_name, String id, String day_id) {
         this.id = id;
         this.lbs = lbs;
         this.reps = reps;
+        this.day_id = day_id;
         this.sub_name = sub_name;
         this.day_name = day_name;
     }

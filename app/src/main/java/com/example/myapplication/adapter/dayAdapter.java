@@ -4,21 +4,24 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Model.template;
 import com.example.myapplication.R;
+import com.example.myapplication.dataBaseHelper.DataBaseHelper;
 
 import java.util.ArrayList;
 
 public class dayAdapter extends RecyclerView. Adapter<dayAdapter.ViewHolder> {
-    ArrayList<String> day_ArrayList;
+    ArrayList<template> templateArrayList;
     Context context;
     OnNoteListener onNoteListener;
+    DataBaseHelper dataBaseHelper;
     public dayAdapter(ArrayList arrayList, Context context, OnNoteListener onNoteListener) {
-        this.day_ArrayList = arrayList;
+        this.templateArrayList = arrayList;
         this.context = context;
         this.onNoteListener = onNoteListener;
     }
@@ -33,16 +36,16 @@ public class dayAdapter extends RecyclerView. Adapter<dayAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.day_item.setText(day_ArrayList.get(position).toString());
+        holder.day_item.setText(templateArrayList.get(position).getTemplateName());
     }
 
     @Override
     public int getItemCount() {
-        return day_ArrayList.size();
+        return templateArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        Button day_item;
+        TextView day_item;
         OnNoteListener onNoteListener;
         public ViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
             super(itemView);
@@ -56,8 +59,8 @@ public class dayAdapter extends RecyclerView. Adapter<dayAdapter.ViewHolder> {
             });
         }
 
-
     }
+
     public interface OnNoteListener{
         public void onItemListener(int position);
     }
