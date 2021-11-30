@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#BDF1F6"
     tools:context=".EditExerciseActivity">
 
     <TextView
@@ -41,8 +42,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="135dp"
         android:layout_marginEnd="135dp"
-        android:backgroundTint="#4B6587"
+        android:backgroundTint="#8FBAF3"
         android:text="Add Exercise"
+        android:textColor="#F2FCFC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,9 +57,10 @@
         android:layout_marginStart="200dp"
         android:layout_marginTop="36dp"
         android:text="Home"
+
         android:textColor="@color/white"
         android:src="@drawable/ic_baseline_home_24"
-        android:backgroundTint="#C8C6C6"
+        android:backgroundTint="#BDF1F6"
         app:layout_constraintStart_toEndOf="@+id/day_name_Tv"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

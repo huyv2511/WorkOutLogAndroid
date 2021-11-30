@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements dayAdapter.OnNote
 
         day_adapter = new dayAdapter(templateList, getApplicationContext(),this);
         day_recyclerView.setAdapter(day_adapter);
-        day_recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        day_recyclerView.setLayoutManager(new GridLayoutManager(this,2));
 
 
         add_template_btn.setOnClickListener(new View.OnClickListener() {

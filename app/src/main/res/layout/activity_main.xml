@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#BDF1F6"
     tools:context=".MainActivity">
 
     <TextView
@@ -12,37 +13,57 @@
         android:layout_centerHorizontal="true"
         android:text="Workout Log"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="#F2FCFC"
         android:textSize="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        android:layout_below="@id/tv_workoutlog"
-        android:id="@+id/day_name_et"
+        android:layout_alignParentLeft="true"
         android:layout_margin="10dp"
-        android:hint="Enter your template name here..."
-        android:background="@drawable/rectangle_background"
-        android:layout_centerHorizontal="true"
-        android:padding="10dp"
-        android:textStyle=""
-
-        android:layout_width="350dp"
-        android:layout_height="40dp"/>
-    <ImageButton
-        android:layout_marginHorizontal="10dp"
-        android:layout_below="@id/day_name_et"
-        android:id="@+id/add_day_btn"
-        android:layout_centerHorizontal="true"
-        android:text="Add"
-        android:src="@drawable/ic_baseline_add_circle_24"
-        android:backgroundTint="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="15dp"
+    <LinearLayout
+
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout1"
+        android:layout_below="@id/tv_workoutlog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_below="@id/tv_workoutlog"
+            android:id="@+id/day_name_et"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="15dp"
+            android:hint="Enter your template name here..."
+            android:background="@drawable/rectangle_background"
+            android:layout_centerHorizontal="true"
+            android:padding="10px"
+            android:textColor="@color/black"
+            android:backgroundTint="#8FBAF3"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"/>
+
+        <ImageButton
+
+            android:id="@+id/add_day_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/day_name_et"
+            android:background="#0245A3"
+            android:layout_margin="15dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_baseline_add_circle_24"
+            android:backgroundTint="#BDF1F6"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:text="ADD" />
+
+
+    </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:background="#BDF1F6"
+            android:padding="20px"
+        android:layout_marginTop="5dp"
         android:id="@+id/day_recyclerView"
-        android:layout_below="@id/add_day_btn"
+        android:layout_below="@id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
